@@ -1,30 +1,27 @@
-df = read.csv('regrex1 2.csv')
+if (length(commandArgs(trailingOnly= TRUE))<1){
+  stop("Usage: Rscript LR-R.2.r <csv_file>")
+}
 
-head(df)
+csv_file <- commandArgs(trailingOnly = TRUE)[1]
 
-plot(df$x, df$y, xlab="x",ylab="y")
+data = read.csv(csv_file)
 
-model = lm(y~x, data = df)
+pgn(file = "r_orig.pgn")
+plot(data$x, data$y, xlab="x",ylab="y")
 
-summary_stats = summary(model)
+lmdata = lm(y~x, data = data)
 
-summary_stats
+summary(lmdata)
 
-summary_stats$r.squared
+y_predict = predict(lmdata, data)
 
-coef(model)
+pgn(file = "r_lm.png")
 
-coef(model)[1]
+plot(data$x, y_predict, xlab="x", ylab="y")
 
-coef(model)[2]
-
-y_predict = predict(model, df)
-
-plot(df$x, y_predict, xlab="x", ylab="y")
-
-plot(df$x, df$y, xlab="x", ylab="y")
-lines(df$x, y_predict)
-
+plot(data$x, df$y, xlab="x", ylab="y")
+lines(data$x, y_predict)
+title('Linear Regression in R')
 
 
 
